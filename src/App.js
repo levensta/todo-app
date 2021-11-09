@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 // при указании папок, React будет искать в них index.jsx
 import List from "./components/List"
 import AddList from "./components/AddList"
+import Tasks from "./components/Tasks";
 
 import DB from "./assets/db.json";
 
 function App() {
 	// стейты в реакте позволяют обновлять даннные с переданными в них значениями
-	const [value, setValue] = React.useState("Hello World!");
+	const [lists, setLists] = useState(
+		DB.lists.map(item => {
+			item.color = DB.colors.filter(color => color.id === item.colorId)[0].name;
+			return item;
+		})
+	);
+
+	// мутировать состояния не очень хорошо, поэтому делаем глубокую копию
+	const onAddList = (obj) => {
+		// "spread" moment
+		// новый массив из lists + в конце добавляется объект obj
+		const newLists = [...lists, obj];
+		setLists(newLists);
+	};
 
 	return (
 		<div className="todo">
@@ -24,25 +38,17 @@ function App() {
 					]}
 				/>
 				<List
-					items={[
-						{
-							color: "green",
-							name: "Все задачи"
-						},
-						{
-							color: "blue",
-							name: "Фронтенд"
-						},
-						{
-							color: "pink",
-							name: "Кино"
-						}
-					]}
-					isRemovable={true}
+					items={lists}
+					onRemove={list => {
+						console.log(list);
+					}}
+					isRemovable
 				/>
-				<AddList colors={DB.colors} />
+				<AddList onAdd={onAddList} colors={DB.colors} />
 			</div>
-			<div className="todo__tasks"></div>
+			<div className="todo__tasks">
+				<Tasks />
+			</div>
 		</div>
 		);
 	}

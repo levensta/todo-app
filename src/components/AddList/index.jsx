@@ -5,10 +5,29 @@ import Badge from '../Badge';
 import closeSvg from "../../assets/img/close.svg"
 import "./AddList.scss"
 
-const AddList = ( {colors} ) => {
+const AddList = ( {colors, onAdd} ) => {
 	// значение по умолчанию – false
 	const [visiblePopup, setVisiblePopup] = useState(false);
 	const [selectedColor, selectColor] = useState(colors[0].id);
+	const [inputValue, setInputValue] = useState("");
+
+	const onClose = () => {
+		setVisiblePopup(false);
+		setInputValue("");
+		selectColor(colors[0].id);
+	}
+
+	const addList = () => {
+		if (!inputValue) {
+			alert("Введите название списка");
+			return ;
+		}
+		const color = colors.filter(c => c.id === selectedColor)[0].name;
+		// color здесь ключ и значение одновременно
+		onAdd({id: Math.random(), name: inputValue, color});
+		onClose();
+	}
+
 	return (
 		// react не может отрендерить сразу два элемента, поэтому им обязательно иметь родительский
 		// чтобы не плодить лишние div'ы внутри друг друга, можно использовать React.Fragment
@@ -31,12 +50,20 @@ const AddList = ( {colors} ) => {
 			{visiblePopup && (
 				<div className="add-list__popup">
 					<img
-						onClick={() => setVisiblePopup(false)}
+						onClick={onClose}
 						src={closeSvg}
 						alt="close icon"
 						className="add-list__popup-close-btn"
 					/>
-					<input className="field" type="text" placeholder="Название списка" />
+
+					<input
+						value={inputValue}
+						onChange={e => setInputValue(e.target.value)}
+						className="field"
+						type="text"
+						placeholder="Название списка"
+					/>
+
 					<div className="add-list__popup-colors">
 						{
 							colors.map(color => (
@@ -49,7 +76,7 @@ const AddList = ( {colors} ) => {
 							)
 						}
 					</div>
-					<button className="button">Добавить список</button>
+					<button onClick={addList} className="button">Добавить список</button>
 				</div>
 			)}
 		</div>
