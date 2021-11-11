@@ -1,5 +1,7 @@
 import React from "react";
 import classNames from "classnames";
+import axios from "axios";
+
 import Badge from "../Badge";
 
 import removeSvg from "../../assets/img/remove.svg";
@@ -12,7 +14,11 @@ const List = ({ items, isRemovable, onClick, onRemove }) => {
 	const removeList = (item) => {
 		// confirm не является частью частью ES, эту ф-ию предоставляет браузерный API
 		if (window.confirm("Вы действительно хотите удалить список?")) {
-			onRemove(item);
+			axios
+				.delete("http://localhost:8000/lists/" + item.id)
+				.then(() => {
+					onRemove(item.id);
+				})
 		}
 	}
 
@@ -26,7 +32,7 @@ const List = ({ items, isRemovable, onClick, onRemove }) => {
 						<i>
 							{
 								item.icon ? item.icon :
-								<Badge color={item.color} />
+								<Badge color={item.color.name} />
 							}
 						</i>
 						<span>{item.name}</span>

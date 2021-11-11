@@ -30,6 +30,7 @@
 		&-row {
 			display: flex;
 			align-items: center;
+			margin-bottom: 15px;
 
 			input {
 				margin-left: 15px;
@@ -55,7 +56,6 @@
 		// сосдений элемент input справа,
 		// при условии, что чекбокс нажат
 		input:checked + label {
-			transition: opacity 0.15s ease-in-out;
 			background-color: #4DD599;
 			border-color: #4DD599;
 

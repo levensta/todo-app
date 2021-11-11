@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
+import axios from "axios";
+
 import List from "../List";
 import Badge from '../Badge';
 
@@ -8,8 +10,15 @@ import "./AddList.scss"
 const AddList = ( {colors, onAdd} ) => {
 	// значение по умолчанию – false
 	const [visiblePopup, setVisiblePopup] = useState(false);
-	const [selectedColor, selectColor] = useState(colors[0].id);
+	const [selectedColor, selectColor] = useState(3);
+	const [isLoading, setIsLoading] = useState(false);
 	const [inputValue, setInputValue] = useState("");
+
+	useEffect(() => {
+		if (Array.isArray(colors)) {
+			selectColor(colors[0].id);
+		}
+	}, [colors])
 
 	const onClose = () => {
 		setVisiblePopup(false);
@@ -22,17 +31,28 @@ const AddList = ( {colors, onAdd} ) => {
 			alert("Введите название списка");
 			return ;
 		}
-		const color = colors.filter(c => c.id === selectedColor)[0].name;
-		// color здесь ключ и значение одновременно
-		onAdd({id: Math.random(), name: inputValue, color});
-		onClose();
-	}
+		setIsLoading(true);
+		axios
+			.post("http://localhost:8000/lists", {
+				name: inputValue,
+				colorId: selectedColor
+			}) // после того, как запрос успешно выполнится, тогда:
+			.then(({ data }) => {
+				const color = colors.filter(c => c.id === selectedColor)[0].name;
+				const listObj = {...data, color: { name: color} };
+				onAdd(listObj);
+				onClose();
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
+	};
 
 	return (
 		// react не может отрендерить сразу два элемента, поэтому им обязательно иметь родительский
 		// чтобы не плодить лишние div'ы внутри друг друга, можно использовать React.Fragment
 		<div className="add-list">
-			<List  
+			<List
 				onClick={() => setVisiblePopup(true)}
 				items={[
 					{
@@ -71,12 +91,14 @@ const AddList = ( {colors, onAdd} ) => {
 									onClick={() => selectColor(color.id)}
 									key={color.id}
 									color={color.name}
-									className={selectedColor === color.id && "active" }	
+									className={selectedColor === color.id && "active" }
 								/>)
 							)
 						}
 					</div>
-					<button onClick={addList} className="button">Добавить список</button>
+					<button onClick={addList} className="button">
+						{ isLoading ? "Добавление..." : "Добавить" }
+					</button>
 				</div>
 			)}
 		</div>
