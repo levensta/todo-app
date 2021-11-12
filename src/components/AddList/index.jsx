@@ -18,13 +18,13 @@ const AddList = ( {colors, onAdd} ) => {
 		if (Array.isArray(colors)) {
 			selectColor(colors[0].id);
 		}
-	}, [colors])
+	}, [colors]);
 
 	const onClose = () => {
 		setVisiblePopup(false);
 		setInputValue("");
 		selectColor(colors[0].id);
-	}
+	};
 
 	const addList = () => {
 		if (!inputValue) {
@@ -39,9 +39,12 @@ const AddList = ( {colors, onAdd} ) => {
 			}) // после того, как запрос успешно выполнится, тогда:
 			.then(({ data }) => {
 				const color = colors.filter(c => c.id === selectedColor)[0].name;
-				const listObj = {...data, color: { name: color} };
+				const listObj = { ...data, color: { name: color} };
 				onAdd(listObj);
 				onClose();
+			})
+			.catch(() => {
+				alert("Ошибка при добавлении списка");
 			})
 			.finally(() => {
 				setIsLoading(false);

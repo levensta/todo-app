@@ -8,17 +8,21 @@ function App() {
 	// стейты в реакте позволяют обновлять даннные с переданными в них значениями
 	const [lists, setLists] = useState(null);
 	const [colors, setColors] = useState(null);
+	const [activeItem, setActiveItem] = useState(null);
 
 	// с помощью этого хука можно проверить изменился ли компонент и отрендерился ли он
 	// при изменении будет отправляться get-запрос
 	useEffect(() => {
 		axios
-			.get("http://localhost:8000/lists?_expand=color&_embed=tasks").then(({ data }) => {
-			setLists(data);
-		});
-		axios.get("http://localhost:8000/colors").then(({ data }) => {
-			setColors(data);
-		});
+			.get("http://localhost:8000/lists?_expand=color&_embed=tasks")
+			.then(({ data }) => {
+				setLists(data);
+			});
+		axios
+			.get("http://localhost:8000/colors")
+			.then(({ data }) => {
+				setColors(data);
+			});
 	}, []);
 
 	// мутировать состояния не очень хорошо, поэтому делаем глубокую копию
@@ -29,12 +33,33 @@ function App() {
 		setLists(newLists);
 	};
 
+	const onAddTask = (listId, taskObj) => {
+		const newLists = lists.map(item => {
+			if (item.id === listId) {
+				item.tasks = [...item.tasks, taskObj];
+			}
+			return item;
+		});
+		setLists(newLists);
+	};
+
+	const onEditListTitle = (id, title) => {
+		const newLists = lists.map(item => {
+			if (item.id === id) {
+				item.name = title;
+			}
+			return item;
+		});
+		setLists(newLists);
+	};
+
 	return (
 		<div className="todo">
 			<div className="todo__sidebar">
 				<List
 					items={[
 						{
+							active: true,
 							icon:
 								(<svg width="18" height="18" viewBox="0 0 18 18" fill="none"
 									  xmlns="http://www.w3.org/2000/svg">
@@ -55,13 +80,25 @@ function App() {
 							const newLists = lists.filter(item => item.id !== id);
 							setLists(newLists);
 						}}
+						onClickItem={item => {
+							setActiveItem(item);
+						}}
+						activeItem={activeItem}
 						isRemovable
-					/>) : "Загрузка..."
+					/>)
+					: "Загрузка..."
 				}
 				<AddList onAdd={onAddList} colors={colors} />
 			</div>
 			<div className="todo__tasks">
-				{ lists && <Tasks list={lists[1]} /> }
+				{
+					lists && activeItem && (
+					<Tasks
+						list={activeItem}
+						onAddTask={onAddTask}
+						onEditTitle={onEditListTitle}
+					/>)
+				}
 			</div>
 		</div>
 		);

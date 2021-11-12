@@ -9,9 +9,9 @@ import "./List.scss";
 
 // здесь происходит деструкторизация объекта (пропса),
 // вытаскиваем свойства объекта в отдельные переменные
-const List = ({ items, isRemovable, onClick, onRemove }) => {
+const List = ({items, isRemovable, onClick, onRemove, onClickItem, activeItem}) => {
 
-	const removeList = (item) => {
+	const removeList = item => {
 		// confirm не является частью частью ES, эту ф-ию предоставляет браузерный API
 		if (window.confirm("Вы действительно хотите удалить список?")) {
 			axios
@@ -28,14 +28,22 @@ const List = ({ items, isRemovable, onClick, onRemove }) => {
 				items.map((item, index) => ( 
 					// ключ нужен для того, чтобы react мог понимать какой конкретно объект нужно обновить
 					// ф-ия classNames позволяет установить элементу классы при их наличии
-					<li key={index} className={classNames(item.className, {"active": item.active})}>
+					<li
+						key={index}
+						className={classNames(item.className, {
+							active: item.active
+								? item.active
+								: activeItem && activeItem.id === item.id
+						})}
+						onClick={onClickItem ? () => onClickItem(item): null}
+					>
 						<i>
-							{
-								item.icon ? item.icon :
-								<Badge color={item.color.name} />
-							}
+							{ item.icon ? item.icon : <Badge color={item.color.name} /> }
 						</i>
-						<span>{item.name}</span>
+						<span>
+							{item.name}
+							{item.tasks && ` (${item.tasks.length})`}
+						</span>
 						{isRemovable && (
 							<img
 								src={removeSvg}
