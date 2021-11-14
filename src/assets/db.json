@@ -1,66 +1,164 @@
 {
   "lists": [
     {
-      "id": 1,
-      "name": "Покупки",
-      "colorId": 5
-    },
-    {
       "id": 2,
       "name": "Фронтенд",
-      "colorId": 4
-    },
-    {
-      "id": 3,
-      "name": "Фильмы и сериалы",
       "colorId": 3
     },
     {
-      "id": 4,
-      "name": "Книги",
-      "colorId": 2
+      "name": "Покупки",
+      "colorId": 4,
+      "id": 3
     },
     {
-      "id": 5,
-      "name": "Личное",
-      "colorId": 1
+      "name": "Рабочее",
+      "colorId": 1,
+      "id": 4
     },
     {
-      "name": "Спорт",
-      "colorId": 3,
-      "id": 6
+      "name": "Школа 21",
+      "colorId": 2,
+      "id": 5
     }
   ],
   "tasks": [
     {
-      "id": 1,
       "listId": 2,
-      "text": "Изучить JavaScript",
-      "completed": false
-    },
-    {
-      "id": 2,
-      "listId": 2,
-      "text": "Изучить паттерны проектирования",
-      "completed": false
-    },
-    {
-      "id": 3,
-      "listId": 2,
-      "text": "ReactJS Hooks (useState, useReducer, useEffect и т.д.)",
-      "completed": true
-    },
-    {
-      "id": 4,
-      "listId": 2,
-      "text": "Redux (redux-observable, redux-saga)",
-      "completed": false
+      "text": "Зарегистрироваться на курс «Разработка Интерфейсов» на Coursera",
+      "completed": true,
+      "id": 1
     },
     {
       "listId": 2,
-      "text": "test",
-      "completed": false,
+      "text": "Пройти первый модуль курса",
+      "completed": true,
+      "id": 2
+    },
+    {
+      "listId": 2,
+      "text": "Изучить основы React",
+      "completed": true,
+      "id": 3
+    },
+    {
+      "listId": 2,
+      "text": "Сделать ToDo на React",
+      "completed": true,
+      "id": 4
+    },
+    {
+      "listId": 2,
+      "text": "Обновить резюме",
+      "completed": true,
       "id": 5
+    },
+    {
+      "listId": 2,
+      "text": "Пройти собеседование в Сбер",
+      "completed": false,
+      "id": 6
+    },
+    {
+      "listId": 2,
+      "text": "Впечатлить команду",
+      "completed": false,
+      "id": 7
+    },
+    {
+      "listId": 2,
+      "text": "Пройти стажировку",
+      "completed": false,
+      "id": 8
+    },
+    {
+      "listId": 3,
+      "text": "Фрукты",
+      "completed": true,
+      "id": 9
+    },
+    {
+      "listId": 3,
+      "text": "Овощи",
+      "completed": false,
+      "id": 10
+    },
+    {
+      "listId": 3,
+      "text": "Консервы",
+      "completed": true,
+      "id": 11
+    },
+    {
+      "listId": 3,
+      "text": "Молоко",
+      "completed": true,
+      "id": 12
+    },
+    {
+      "listId": 3,
+      "text": "Творог",
+      "completed": false,
+      "id": 13
+    },
+    {
+      "listId": 4,
+      "text": "Сделать дизайн карты",
+      "completed": true,
+      "id": 14
+    },
+    {
+      "listId": 4,
+      "text": "Переименовать весь каталог по шаблону",
+      "completed": false,
+      "id": 15
+    },
+    {
+      "listId": 4,
+      "text": "Провести адаптацию для нового дизайнера",
+      "completed": false,
+      "id": 16
+    },
+    {
+      "listId": 5,
+      "text": "Доделать ft_containers",
+      "completed": false,
+      "id": 17
+    },
+    {
+      "listId": 5,
+      "text": "Разобрать красно-черное дерево",
+      "completed": false,
+      "id": 18
+    },
+    {
+      "listId": 5,
+      "text": "Сделать born2beroot",
+      "completed": false,
+      "id": 19
+    },
+    {
+      "listId": 5,
+      "text": "Пересдать inception (с бонусами)",
+      "completed": false,
+      "id": 20
+    },
+    {
+      "listId": 5,
+      "text": "Сдать exam-rank-06",
+      "completed": false,
+      "id": 21
+    },
+    {
+      "listId": 5,
+      "text": "Начать делать фронтенд для transcendence ",
+      "completed": false,
+      "id": 22
+    },
+    {
+      "listId": 5,
+      "text": "Начать делать ветку алгоритмов",
+      "completed": false,
+      "id": 23
     }
   ],
   "colors": [

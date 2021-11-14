@@ -26,7 +26,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `npm run json-server`
 
-Runs the json-server for backend
+Runs the json-server on 8000 port for backend
 
 
 
